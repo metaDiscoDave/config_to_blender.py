@@ -239,21 +239,39 @@ def create_parameter_node_group(config_data, object_name):
                         debug_print(f"Created menu switch node for {param_name} with {len(param_data)} string options")
 
                     else:
-                        # For boolean or other non-string lists, use integer socket
-                        socket = node_group.interface.new_socket(
-                            name=param_name,
-                            in_out='INPUT',
-                            socket_type='NodeSocketInt'
-                        )
+                        # Check if this is a boolean list
+                        has_booleans = all(isinstance(item, bool) for item in param_data)
 
-                        # Set the min, max, and default values
-                        socket.min_value = 0
-                        socket.max_value = len(param_data) - 1
-                        socket.default_value = 0  # Default to first option
+                        if has_booleans:
+                            # For boolean lists, use boolean socket
+                            socket = node_group.interface.new_socket(
+                                name=param_name,
+                                in_out='INPUT',
+                                socket_type='NodeSocketBool'
+                            )
 
-                        # Store the enum options as a custom property on the node group
-                        node_group["enum_options_" + param_name] = ",".join(str(item) for item in param_data)
-                        debug_print(f"Created int socket for {param_name} with {len(param_data)} options")
+                            # Set default to first boolean value
+                            socket.default_value = param_data[0]
+
+                            # Store the boolean options as a custom property
+                            node_group["bool_options_" + param_name] = ",".join(str(item) for item in param_data)
+                            debug_print(f"Created boolean socket for {param_name} with options: {param_data}")
+                        else:
+                            # For other non-string lists, use integer socket
+                            socket = node_group.interface.new_socket(
+                                name=param_name,
+                                in_out='INPUT',
+                                socket_type='NodeSocketInt'
+                            )
+
+                            # Set the min, max, and default values
+                            socket.min_value = 0
+                            socket.max_value = len(param_data) - 1
+                            socket.default_value = 0  # Default to first option
+
+                            # Store the enum options as a custom property on the node group
+                            node_group["enum_options_" + param_name] = ",".join(str(item) for item in param_data)
+                            debug_print(f"Created int socket for {param_name} with {len(param_data)} options")
 
 
                 y_offset -= 50
