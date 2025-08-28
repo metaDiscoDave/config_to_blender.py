@@ -26,22 +26,16 @@ A Python script for Blender 4.5+ that automatically converts JSON configuration 
 
 ### Basic Usage
 
-1. **Prepare your .blend file**: Save your Blender file in the same directory as your config file
+1. **Prepare your .blend file**: Copy the script to your Scripting Workspace in Blender or Open the config_to_blender.py in the Blender text Editor
 2. **Select an object**: Choose the object you want to apply the parametric system to
-3. **Run the script**: Execute the script in Blender's Text Editor or via command line
+3. **Run the script**: Execute the script in Blender's Text Editor by presseing the Play button
 
 ### Configuration Methods
 
 #### Method 1: Auto-detection
 Place your config file (ending with `_Config.json` or `_config.json`) in the same directory as your .blend file. The script will automatically find and load it.
 
-#### Method 2: Manual path
-Set the `CONFIG_PATH` variable at the top of the script:
-```python
-CONFIG_PATH = r"C:\Path\To\Your\Config.json"
 
-#### Method 3: Command line
-Run Blender with the script and config path as arguments:
-```bash
-blender your_file.blend --python config_to_blender.py -- "path/to/config.json"
+
+
 
